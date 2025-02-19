@@ -1,9 +1,10 @@
-import express from 'express';
-import { home, movieDetail, filterMovie } from './movieController';
+import express from "express";
+import { home, movieDetail, filterMovie, filterPost } from "./movieController";
 
 const movieRouter = express.Router();
 
-movieRouter.get('/', home);
-movieRouter.get('/:id', movieDetail);
-movieRouter.get('/filter', filterMovie);
+movieRouter.route("/").get(home).post(filterPost);
+movieRouter.route("/filter").get(filterMovie).post(filterPost);
+movieRouter.get("/:id(\\d+)", movieDetail);
+
 export default movieRouter;

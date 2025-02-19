@@ -1,12 +1,15 @@
-form(method="POST")
-  table
-    tr
-      td
-        input(name="title", placeholder="Title", required, type="text", maxlength=80)
-      td
-        input(name="description", placeholder="Description", required, type="text", minlength=20)
-      td
-        input(type="submit", value="Upload Video")
+form(method="POST", URL="/")
+  input(name="year", placeholder="Filter By Year!", type="text")
+  input(name="rating", placeholder="Filter By Rating!", type="text")
+  input(type="submit", value="Search")
+  //- table
+  //-   tr
+  //-     td
+  //-       input(name="year", placeholder="Filter By Year", type="number")
+  //-     td
+  //-       input(name="rating", placeholder="Filter By Rating", type="text")
+  //-     td
+  //-       input(type="submit", value="Search")
     
     
     

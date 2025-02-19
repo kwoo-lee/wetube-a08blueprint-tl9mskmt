@@ -2,6 +2,7 @@ extends index
 include mixins/movie
 
 block content
+    include partials/filter
     ul 
         each movie in movies
             +movie(movie)
