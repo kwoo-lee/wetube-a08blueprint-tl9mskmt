@@ -1,0 +1,9 @@
+extends index
+include mixins/movie
+
+block content
+    ul 
+        each movie in movies
+            +movie(movie)
+        else 
+            li sorry nothing found
