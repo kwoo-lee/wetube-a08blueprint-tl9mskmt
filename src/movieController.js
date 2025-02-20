@@ -3,59 +3,26 @@ import {
   getMovies,
   getMovieByMinimumRating,
   getMovieByMinimumYear,
-} from "./db";
+  addMovie,
+} from "./mydb";
 
-let movies = [
-  {
-    title: "WhiteLines",
-    description: "something about whitelines",
-    year: 2021,
-    rating: 5,
-    keywords: ["a", "b", "c"],
-    id: 0,
-  },
-  {
-    title: "Yella",
-    description: "something about yella",
-    year: 2022,
-    rating: 4,
-    keywords: ["d", "e", "f"],
-    id: 1,
-  },
-];
-
-export const home = (req, res) => {
-  //console.log(movies);
+export const getHome = (req, res) => {
+  const movies = getMovies();
   res.render("home", { pageTitle: "Movie!", movies });
 };
 
-export const filterPost = (req, res) => {
-  const { year, rating } = req.body;
-
-  console.log("filterPost");
-  console.log(year, rating);
-  res.redirect(`/filter?year=${year}&rating=${rating}`);
-};
-
-export const movieDetail = (req, res) => {
+export const getMovieDetail = (req, res) => {
   const { id } = req.params;
-  const movie = movies[id];
-  console.log(movie.keywords);
+  const movie = getMovieById(id);
   res.render("movieDetail", { pageTitle: movie.title, movie });
 };
 
-export const filterMovie = (req, res) => {
-  const { year, rating } = req.query;
-  console.log(year, rating);
+export const getFilterMovie = (req, res) => {
   try {
+    const { year, rating } = req.query;
     let pageTitle = "Searching By ";
     let filteredMovies;
-    if (year && rating) {
-      pageTitle += `Year ${year} and Rating ${rating}!`;
-      filteredMovies = movies.filter(
-        (movie) => movie.year === Number(year) && rating === Number(rating)
-      );
-    } else if (year) {
+    if (year) {
       pageTitle += `Year ${year}!`;
       filteredMovies = movies.filter((movie) => movie.year === Number(year));
     } else if (rating) {
@@ -73,5 +40,38 @@ export const filterMovie = (req, res) => {
   } catch (error) {
     console.log(error._message);
     res.redirect(`/`);
+  }
+};
+
+export const postFilterMovie = (req, res) => {
+  try {
+    const { year, rating } = req.body;
+    res.redirect(`/filter?year=${year}&rating=${rating}`);
+  } catch (error) {
+    console.log(error._message);
+    res.redirect(`/`);
+  }
+};
+
+export const getAdd = (req, res) => {
+  res.render("add", { pageTitle: "AddMovie" });
+};
+
+export const postAdd = (req, res) => {
+  try {
+    const { title, synopsis, genres } = req.body;
+    const movies = getMovies();
+
+    const newMovie = {
+      title,
+      synopsis,
+      genres: genres.split(","),
+      id: movies.length,
+    };
+    addMovie(newMovie);
+
+    return res.redirect("/");
+  } catch (error) {
+    console.log(error._message);
   }
 };

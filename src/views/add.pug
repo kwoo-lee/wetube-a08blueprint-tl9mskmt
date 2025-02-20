@@ -1,0 +1,11 @@
+extends index.pug
+
+block content 
+    if errorMessage 
+        span=errorMessage
+    h4 Upload New Movie
+    form(method="POST")
+        input(name="title", placeholder="Title", required, type="text", maxlength=80)
+        input(name="synopsis", placeholder="Description", required, type="text", minlength=20)
+        input(name="genres", placeholder="Hashtags, separated by comma.", required, type="text")
+        input(type="submit", value="Upload Video")

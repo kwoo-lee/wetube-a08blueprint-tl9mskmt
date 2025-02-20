@@ -1,7 +1,7 @@
 extends index
 
 block content 
-    p1=movie.description
+    p1=movie.synopsis
     ul 
-        each keyword in movie.keywords
-            li=keyword
+        each genre in movie.genres
+            li=genre
